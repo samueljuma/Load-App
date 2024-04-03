@@ -9,7 +9,6 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
-
     <com.udacity.LoadingButton
         android:id="@+id/custom_button"
         android:layout_width="0dp"
@@ -17,7 +16,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="50dp"
-        app:buttonText="DownLoad"
+        app:buttonText="Download"
         app:downloadingText="We are Downloading!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
