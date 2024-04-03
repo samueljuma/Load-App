@@ -47,7 +47,7 @@ class LoadingButton @JvmOverloads constructor(
      * handles different button states (Clicked, Loading, Completed)
      * and updates the view accordingly
      */
-    private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { _, _, new ->
+     var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { _, _, new ->
         when (new) {
             ButtonState.Loading -> {
                 buttonText = resources.getString(R.string.button_loading)
@@ -84,12 +84,6 @@ class LoadingButton @JvmOverloads constructor(
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.LoadingButton)
         buttonText = typedArray.getString(R.styleable.LoadingButton_buttonText) ?: context.getString(R.string.button_name)
         typedArray.recycle()
-
-        setOnClickListener {
-            if (buttonState != ButtonState.Loading) {
-                buttonState = ButtonState.Loading
-            }
-        }
     }
 
     override fun onDraw(canvas: Canvas?) {
