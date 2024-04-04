@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
             if(id == downloadID){
                 val status = getDownloadStatus(id)
-                if(status == DownLoadStatus.SUCCESS){
+                if(status == DownLoadStatus.Success){
                     customButton.buttonState = ButtonState.Completed
                     showNotification(status)
                 }else{
@@ -111,20 +111,20 @@ class MainActivity : AppCompatActivity() {
             val reasonIndex = cursor.getColumnIndex(DownloadManager.COLUMN_REASON)
 
             return when (cursor.getInt(statusIndex)){
-                DownloadManager.STATUS_SUCCESSFUL ->DownLoadStatus.SUCCESS
+                DownloadManager.STATUS_SUCCESSFUL ->DownLoadStatus.Success
                 DownloadManager.STATUS_FAILED -> {
                     Log.i("TAGGY", "Download Failed: Reason ${cursor.getInt(reasonIndex)}")
-                    DownLoadStatus.FAILED
+                    DownLoadStatus.Success
                 }
 
                 else -> {
                     Log.i("TAGGY", "Download Status:  ${cursor.getInt(statusIndex)}")
-                    DownLoadStatus.FAILED
+                    DownLoadStatus.Failed
                 }
             }
 
         }
-        return DownLoadStatus.NONE
+        return DownLoadStatus.None
     }
 
     // Function Creates Notification Channel
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
     private fun showNotification(status: DownLoadStatus){
         val detailIntent = Intent(this, DetailActivity::class.java)
         detailIntent.putExtra("fileName", selectedDownloadUri.desc)
-        detailIntent.putExtra("downloadStatus",status.name.lowercase())// check this
+        detailIntent.putExtra("downloadStatus",status.name)// check this
         pendingIntent = PendingIntent.getActivity(this, 0,detailIntent,PendingIntent.FLAG_UPDATE_CURRENT )
 
         action = NotificationCompat.Action.Builder(
