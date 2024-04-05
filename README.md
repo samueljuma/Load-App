@@ -13,7 +13,7 @@ Project 3: Android Kotlin Developer Udacity | Nanodegree
 * [Notifications](https://developer.android.com/develop/ui/views/notifications/build-notification)
 * [DownloadManager](https://developer.android.com/develop/ui/views/notifications/build-notification)
 
-### Screenshots
-| <img src="screenshots/demo.gif" width=280/> | <img src="screenshots/1.jpeg" width=280/> | <img src="screenshots/2.jpeg" width=280/> |
-|:-------------------------------------------:|:-----------------------------------------:|:-----------------------------------------:|
-|  <img src="screenshots/3.jpeg" width=280/>  | <img src="screenshots/4.jpeg" width=280/> |
+### Demo and Screenshots
+| <img src="screenshots/demo.gif"/> | <img src="screenshots/1.jpeg"/> | <img src="screenshots/2.jpeg"/> |
+|:---------------------------------:|:-------------------------------:|:-------------------------------:|
+|  <img src="screenshots/3.jpeg"/>  | <img src="screenshots/4.jpeg"/> |
