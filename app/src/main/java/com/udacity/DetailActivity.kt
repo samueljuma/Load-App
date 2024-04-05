@@ -20,7 +20,7 @@ class DetailActivity : AppCompatActivity() {
             binding.detailContent.statusTxt.text = intent.getStringExtra("downloadStatus")
         }
 
-        binding.fab.setOnClickListener{
+        binding.detailContent.fab.setOnClickListener{
             startActivity(Intent(this, MainActivity::class.java))
         }
 
