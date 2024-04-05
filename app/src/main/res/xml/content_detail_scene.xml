@@ -30,8 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="100dp"
-            android:scaleX="2"
-            android:scaleY="2"
+            android:scaleX="1"
+            android:scaleY="1"
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,8 +40,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
-            android:scaleX="2"
-            android:scaleY="2"
+            android:scaleX="1"
+            android:scaleY="1"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/textView"
@@ -51,10 +51,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
-            app:layout_constraintTop_toTopOf="parent"
+            android:scaleX="1"
+            android:scaleY="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -65,5 +67,5 @@
         app:autoTransition="animateToEnd"
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start"
-        app:duration="6000" />
+        app:duration="2000" />
 </MotionScene>

@@ -24,6 +24,7 @@ class DetailActivity : AppCompatActivity() {
 
         binding.detailContent.fab.setOnClickListener{
             startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
 
         // Cancel the notification once the activity is opened

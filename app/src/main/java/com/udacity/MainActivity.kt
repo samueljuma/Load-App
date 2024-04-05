@@ -151,7 +151,7 @@ class MainActivity : AppCompatActivity() {
 
         action = NotificationCompat.Action.Builder(
             R.drawable.ic_assistant_black_24dp,
-            "View Details",
+            getString(R.string.notification_button),
             pendingIntent
         ).build()
 
@@ -166,7 +166,6 @@ class MainActivity : AppCompatActivity() {
         notificationManager.notify(0,builder.build())
 
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

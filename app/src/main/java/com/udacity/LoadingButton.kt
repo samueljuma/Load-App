@@ -52,19 +52,22 @@ class LoadingButton @JvmOverloads constructor(
             ButtonState.Loading -> {
                 buttonText = resources.getString(R.string.button_loading)
                 valueAnimator = ValueAnimator.ofFloat(0f, widthSize.toFloat()).apply {
-                    duration = 6000
+                    duration = 1000
+                    repeatCount = ValueAnimator.INFINITE// animation repeats indefinitely
+                    interpolator = AccelerateDecelerateInterpolator()
                     addUpdateListener { anim ->
                         progressWidth = anim.animatedValue as Float
                         progressCircle = (widthSize.toFloat() / 365) * progressWidth
                         invalidate()
                     }
-                    addListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            if (buttonState == ButtonState.Loading) {
-                                buttonState = ButtonState.Completed
-                            }
-                        }
-                    })
+
+//                    addListener(object : AnimatorListenerAdapter() {
+//                        override fun onAnimationEnd(animation: Animator) {
+//                            if (buttonState == ButtonState.Loading) {
+//                                buttonState = ButtonState.Completed
+//                            }
+//                        }
+//                    })
                     start()
                 }
             }
