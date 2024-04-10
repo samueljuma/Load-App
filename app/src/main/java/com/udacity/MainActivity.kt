@@ -1,5 +1,6 @@
 package com.udacity
 
+import android.Manifest
 import android.app.DownloadManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,14 +9,19 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.udacity.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +38,8 @@ class MainActivity : AppCompatActivity() {
 
     private var  selectedDownloadUri: FILE_TO_DOWNLOAD = FILE_TO_DOWNLOAD.NONE
 
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -47,6 +55,14 @@ class MainActivity : AppCompatActivity() {
         customButton = binding.mainContent.customButton
         downloadRadioGroup = binding.mainContent.downloadRadioGroup
 
+        requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
+            if(it){
+                showNotification()
+            }
+            else{
+                showToast("You need to turn on Notification Permission")
+            }
+        }
         customButton.setOnClickListener {
 
 
@@ -84,13 +100,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val receiver = object : BroadcastReceiver() {
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
             if(id == downloadID){
                 val status = getDownloadStatus(id)
                 if(status == DownLoadStatus.Success){
                     customButton.buttonState = ButtonState.Completed
-                    showNotification(status)
+
+                    if(hasNotificationPermission()){
+                        //Show Notification if permission is granted
+                        showNotification()
+                    }else{
+                        //Request Notification permission if it has not been granted
+                        requestNotificationPermission()
+                    }
+
                 }else{
                     showToast("There was an error downloading your file")
                 }
@@ -142,12 +167,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Function Checks if Notification Permission has been granted
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun hasNotificationPermission(): Boolean{
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.POST_NOTIFICATIONS) ==PackageManager.PERMISSION_GRANTED
+    }
+
+    //Function Requests Notification Permission to be granted
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun requestNotificationPermission(){
+        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+    }
+
     //Function creates and shows Notification
-    private fun showNotification(status: DownLoadStatus){
+    private fun showNotification(){
         val detailIntent = Intent(this, DetailActivity::class.java)
         detailIntent.putExtra("fileName", selectedDownloadUri.desc)
-        detailIntent.putExtra("downloadStatus",status.name)// check this
-        pendingIntent = PendingIntent.getActivity(this, 0,detailIntent,PendingIntent.FLAG_UPDATE_CURRENT )
+        val status = if(customButton.buttonState == ButtonState.Completed) "Success" else "Failure"
+        detailIntent.putExtra("downloadStatus",status)// check this
+        pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            detailIntent,PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE )
 
         action = NotificationCompat.Action.Builder(
             R.drawable.ic_assistant_black_24dp,
